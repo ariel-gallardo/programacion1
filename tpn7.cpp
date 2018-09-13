@@ -7,16 +7,34 @@ Estructura Fecha
 		
 	publico:
 		Fecha();
-		Fecha(Entero Day, Entero Month, Entero Year );
+		Fecha( Entero Day, Entero Month, Entero Year );
 		Funcion Logico esBisiesto();
 		Funcion Cadena maxDM();
+		
+		Funcion Entero getD() { retorna( Day   ); }
+		Funcion Entero getM() { retorna( Month ); }
+		Funcion Entero getA() { retorna( Year  ); }
+		
+		Funcion Cadena getF();
 };
+
 principal
 	mostrar << "1 - Dado un anio y un mes, "
-			<< "muestre la fecha del Ultimo di­a de ese mes y ese anio."
+			<< "Muestre la fecha del Ultimo di­a de ese mes y ese año"
 			<< salto;
-	Fecha DDMMAA_1;
-	mostrar << DDMMAA_1.maxDM() << salto;
+
+	vectorDin( Fecha ) Calendario;
+		agregaEleVDin( Calendario, Fecha() );
+		pausa;
+		limpiar;
+		paraCada( F, Calendario )
+			mostrar << "Fecha Maxima: " << F.maxDM() << salto;
+			agregaEleVDin( Calendario, Fecha( 31, 12, F.getA()-1 ) );
+		finParaCada
+		pausa;
+		limpiar
+		
+	
 finPrincipal
 	
 
@@ -103,6 +121,16 @@ Funcion Cadena Fecha::maxDM()
 		finSi
 	finSi
 	tempCad.insert( 0, aCadena( tempNum ) );
+	retorna( tempCad );
+}
+
+Funcion Cadena Fecha::getF()
+{
+	Cadena tempCad;
+	tempCad += aCadena( Day	  ); tempCad += " / ";
+	tempCad += aCadena( Month ); tempCad += " / ";
+	tempCad += aCadena( Year  );
+	
 	retorna( tempCad );
 }
 /*

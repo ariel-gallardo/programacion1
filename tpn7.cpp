@@ -16,9 +16,11 @@ vectorDin( Fecha ) Calendario;
 										  Calendario[0].verM(),
 										  Calendario[0].verA()-1 ) );
 	mostrar << salto;
-	Entero vE[2];
+	Entero vE[2] = { 0, 0 };													//Primera solucion declarar
 	Calendario[0].Comparar( Calendario , vE );
-
+	mostrar << "Entre las fechas hay: "
+			<< Calendario[0].Contar( vE[0], vE[1], Calendario )
+			<< salto;
 	
 pausa;
 finPrincipal

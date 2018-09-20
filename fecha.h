@@ -6,7 +6,6 @@ Estructura Fecha
 	privado:
 		Entero Day = 0, Month = 0, Year = 0;
 		Funcion Logico Condicion();
-
 		
 	publico:
 			Fecha();

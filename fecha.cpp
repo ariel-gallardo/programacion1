@@ -55,7 +55,7 @@ Funcion Logico Fecha::Condicion()
 		temp-=1;
 	retorna( fSi( Day > 0 Y Day <= temp, VERDADERO, FALSO ) );
 	sinoSi( Month ES 2 ) entonces
-		fSi( esBisiesto(), temp=-3, temp=-2 );
+		fSi( esBisiesto(), temp-=3, temp-=2 );
 	retorna( fSi( Day > 0 Y Day <= temp, VERDADERO, FALSO ) );
 	sinoSi( Month >=1 Y Month <=12 ) entonces
 		retorna( fSi( Day > 0 Y Day <= temp, VERDADERO, FALSO ) );
@@ -118,29 +118,29 @@ Procedimiento Fecha::Comparar( vectorDin( Fecha ) porRef vF, Entero deRef vE )
 		leerM( Elegir[ vE[1] ], "Fecha n°2: " );
 	finMientras
 	mostrar << salto;
+	
 }
 
 Funcion Entero Fecha::Contar( Entero A, Entero B,
 							  vectorDin( Fecha ) porRef vF )
 {
-	Entero Dias = 0, tempA = 0, tempMi = 0, tempMf = 0;
-	si( vF[ A ].verD() NOES vF[ B ].verD() O 
-	    vF[ A ].verM() NOES vF[ B ].verM() O
-	    vF[ A ].verA() NOES vF[ B ].verA() ) entonces
-			si( vF[ A ].verA() < vF[ B ].verA() O
-				vF[ A ].verM() < vF[ B ].verM() O
-				vF[ A ].verD() < vF[ B ].verD() ) entonces
-				variarMas1( tempA, vF[ A ].verA(), vF[ B ].verA()-1 )
-					fSi( tempMi ES vF[ A ].verM() Y tempA ES vF[ A ].verA(),
-						 tempMf  = vF[ A ].verM(), tempMf  = 12 );
-					variarMas1( tempMi, vF[ A ].verM(), tempMf )
-						Dias += maxDM( tempMi );
-					finVariar
+	Entero Dias = 0, tempA = 0, tempMi = 0, tempMa = 0, tempMf = 0;
+
+			variarMas1( tempA, vF[ B ].verA(), vF[ A ].verA() )
+			/*
+				Mes inicial el mas chico
+				Año  actual es mas grande
+			*/
+				fSi( tempMi ES vF[ B ].verM() Y tempA ES vF[ A ].verA(),
+					 tempMf  = vF[ B ].verM(), tempMf  = 12 );
+				fSi( tempMa ES vF[ B ].verM() Y tempA ES vF[ B ].verA(),
+					 tempMa  = vF[ B ].verM(), tempMa  = 1 );
+				variarMas1( tempMi, tempMa, tempMf )
+					Dias += maxDM( tempMi );
 				finVariar
-			Dias -= vF[ A ].verD();
-		sino
-			Contar( B, A, vF );
+			finVariar 
+		si( vF[ B ].verD() NOES vF[ A ].verD() ) entonces
+			Dias -= vF[ A ].verD();  
 		finSi
-	finSi
 	retorna( Dias );
-}
+} 

@@ -1,141 +1,24 @@
-#include <program1.h>
-Estructura Fecha
-{
-	privado:
-		Entero Day = 0, Month = 0, Year = 0;
-		Funcion Logico Condicion();
-		
-	publico:
-		Fecha();
-		Fecha( Entero Day, Entero Month, Entero Year );
-		Funcion Logico esBisiesto();
-		Funcion Cadena maxDM();
-		
-		Funcion Entero getD() { retorna( Day   ); }
-		Funcion Entero getM() { retorna( Month ); }
-		Funcion Entero getA() { retorna( Year  ); }
-		
-		Funcion Cadena getF();
-};
-
+#include "fecha.h"
 principal
 	mostrar << "1 - Dado un anio y un mes, "
 			<< "Muestre la fecha del Ultimo di­a de ese mes y ese año"
 			<< salto;
+vectorDin( Fecha ) Calendario;
+	agregaEleVDin( Calendario, Fecha() );
+	mostrar << salto;
+	mostrar << "La fecha " << Calendario[0].verFecha() 
+			<< " tiene como maximo "
+			<< Calendario[0].maxDM() 
+			<< " dias. \n \n"
+			<< "La misma fecha un anio anterior. \n "
+			<< salto;
+		agregaEleVDin( Calendario, Fecha( Calendario[0].verD(),
+										  Calendario[0].verM(),
+										  Calendario[0].verA()-1 ) );
+	mostrar << salto;
+	Entero vE[2];
+	Calendario[0].Comparar( Calendario , vE );
 
-	vectorDin( Fecha ) Calendario;
-		agregaEleVDin( Calendario, Fecha() );
-		pausa;
-		limpiar;
-		paraCada( F, Calendario )
-			mostrar << "Fecha Maxima: " << F.maxDM() << salto;
-			agregaEleVDin( Calendario, Fecha( 31, 12, F.getA()-1 ) );
-		finParaCada
-		pausa;
-		limpiar
-		
 	
+pausa;
 finPrincipal
-	
-
-Fecha::Fecha()
-{
-	leerM(	 Day,  "Dia: ");
-	leerM( Month,  "Mes: ");
-	leerM(  Year, "Anio: ");
-	limpiar;
-		si( Condicion() ) entonces
-			mostrar << "Fecha: " <<
-							 Day << '/' << Month  << '/' << Year
-					<< " creada con exito." << salto;
-		sino
-			mostrar << "Fecha: " <<
-							 Day << '/' << Month << '/' << Year 
-					<< " mal formulada."<< salto;
-			  Day = 0;
-			Month = 0;
-			 Year = 0;
-		finSi
-}
-
-Fecha::Fecha(Entero Day, Entero Month,Entero Year)
-:Day(Day), Month(Month), Year(Year)
-{
-	si( Condicion() ) entonces
-		mostrar << "Fecha: "
-				<< Day << '/' << Month  << '/' << Year
-				<< " creada con exito." << salto;
-	sino
-		mostrar << "Fecha: " <<
-						 Day << '/' << Month << '/' << Year 
-				<< " mal formulada."<< salto;
-		  Day = 0;
-		Month = 0;
-		 Year = 0;
-	finSi
-}
-
-Funcion Logico Fecha::esBisiesto()
-{
-	retorna( fSi( Year%4 ES 0, VERDADERO, FALSO ) );
-}
-
-Funcion Logico Fecha::Condicion()	
-{
-	Entero temp = 31;
-	si( Month ES 4 || Month ES 6 || Month ES 9 || Month ES 11 ) entonces
-		temp-=1;
-	retorna( fSi( Day > 0 Y Day <= temp, VERDADERO, FALSO ) );
-	sinoSi( Month ES 2 ) entonces
-		fSi( esBisiesto(), temp=-3, temp=-2 );
-	retorna( fSi( Day > 0 Y Day <= temp, VERDADERO, FALSO ) );
-	sinoSi( Month >=1 Y Month <=12 ) entonces
-	retorna( fSi( Day > 0 Y Day <= temp, VERDADERO, FALSO ) );
-	finSi
-	retorna( FALSO );
-}
-
-Funcion Cadena Fecha::maxDM()
-{
-	Cadena tempCad;
-	Entero tempNum = 31;
-	si( Condicion() ) entonces
-			   tempCad += " / ";
-			   tempCad += aCadena(Month); tempCad += " / ";
-			   tempCad += aCadena(Year);
-			   
-		si( Month ES 4 || Month ES 6 || Month ES 9 || Month ES 11 ) entonces
-			tempCad.insert(0, aCadena( tempNum-1 ) );
-		retorna( tempCad );
-		sinoSi( Month ES 2 ) entonces
-			si( esBisiesto() ) entonces
-				tempCad.insert( 0, aCadena( tempNum-3 ) );
-			retorna( tempCad );
-			sino
-				tempCad.insert( 0, aCadena(tempNum-2 ) );
-			retorna( tempCad );
-			finSi
-		sino
-			tempCad.insert( 0, aCadena(tempNum) );
-		retorna( tempCad );
-		finSi
-	finSi
-	tempCad.insert( 0, aCadena( tempNum ) );
-	retorna( tempCad );
-}
-
-Funcion Cadena Fecha::getF()
-{
-	Cadena tempCad;
-	tempCad += aCadena( Day	  ); tempCad += " / ";
-	tempCad += aCadena( Month ); tempCad += " / ";
-	tempCad += aCadena( Year  );
-	
-	retorna( tempCad );
-}
-/*
-28 29 febrero
-7 31
-4 30
-	
-*/
